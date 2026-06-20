@@ -1,0 +1,66 @@
+<main class="dashboard-container">
+  <!-- Barra de navegación superior corporativa -->
+  <header class="dashboard-header">
+    <div class="header-logo">
+      <h1>ControlHora</h1>
+    </div>
+    
+    <div class="user-profile" *ngIf="user">
+      <div class="user-meta">
+        <span class="user-avatar">{{ user.full_name.charAt(0) }}</span>
+        <div class="user-info">
+          <span class="username">{{ user.full_name }}</span>
+          <span class="user-role">{{ user.role | titlecase }}</span>
+        </div>
+      </div>
+      
+      <button class="btn-logout" (click)="logout()">
+        <span class="logout-icon">🚪</span> Salir
+      </button>
+    </div>
+  </header>
+
+  <section class="dashboard-content">
+    
+    <div class="card panel-clock">
+      <p class="panel-subtitle">Gestiona tus marcas de entrada y salida para el día de hoy.</p>
+      
+      <div class="clock-display">
+        <span class="time">{{ currentTime }}</span>
+        <span class="date">{{ currentDate }}</span>
+      </div>
+
+      <div class="control-actions">
+        <button class="btn btn-entry" (click)="fichar('entrada')">
+          <span class="icon">➡️</span> Fichar Entrada
+        </button>
+        <button class="btn btn-exit" (click)="fichar('salida')">
+          <span class="icon">⬅️</span> Fichar Salida
+        </button>
+      </div>
+    </div>
+
+    <div class="card panel-history">
+      <h2>Mis Consultas</h2>
+      <p class="panel-subtitle">Últimos registros de entrada y salida detectados.</p>
+      
+      <div class="history-list">
+        <div class="no-data" *ngIf="fichajesList.length === 0">
+          <p>No se han encontrado registros de jornada para este usuario.</p>
+        </div>
+
+        <!-- BUCLE DINÁMICO: Renderiza los fichajes reales guardados en SQLite -->
+        <div class="history-item" 
+             *ngFor="let f of fichajesList" 
+             [ngClass]="f.tipo === 'entrada' ? 'badge-entrada' : 'badge-salida'">
+          
+          <div class="item-info">
+            <span class="action-type">{{ f.tipo | titlecase }}</span>
+            <span class="action-date">{{ f.fecha_hora.split(' ')[0] }}</span>
+          </div>
+          <span class="action-time">{{ f.fecha_hora.split(' ')[1] }}</span>  
+        </div>
+    </div>
+    </div>
+  </section>
+</main>
