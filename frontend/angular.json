@@ -19,11 +19,16 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
+            {
+              "glob": "**/*",
+              "input": "public"
+            },
+            {
+              "glob": "vercel.json",
+              "input": ".",
+              "output": "/"
+            }
+          ],
             "styles": ["src/styles.css"]
           },
           "configurations": {
